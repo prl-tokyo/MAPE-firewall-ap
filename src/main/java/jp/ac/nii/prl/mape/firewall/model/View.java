@@ -35,4 +35,12 @@ public class View {
 	public void setRules(List<Rule> rules) {
 		this.rules = rules;
 	}
+
+	public void addRule(Rule rule) {
+		this.rules.add(rule);
+	}
+	
+	public void removeRule(Rule rule) {
+		this.rules.remove(rule);
+	}
 }
