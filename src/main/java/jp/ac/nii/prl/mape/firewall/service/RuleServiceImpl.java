@@ -1,5 +1,7 @@
 package jp.ac.nii.prl.mape.firewall.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,5 +43,10 @@ public class RuleServiceImpl implements RuleService {
 	@Override
 	public List<Rule> findByViewId(Long viewId) {
 		return ruleRepository.findByViewId(viewId);
+	}
+
+	@Override
+	public Collection<Rule> findPortsByViewIdAndSecurityGroupTo(Long viewId, String sg) {
+		return ruleRepository.findByViewIdAndSecurityGroupTo(viewId, sg);
 	}
 }

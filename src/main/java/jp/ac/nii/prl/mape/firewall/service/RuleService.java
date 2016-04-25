@@ -1,5 +1,6 @@
 package jp.ac.nii.prl.mape.firewall.service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,5 +13,7 @@ public interface RuleService {
 	Optional<Rule> findById(Long ruleId);
 
 	List<Rule> findByViewId(Long viewId);
+
+	Collection<Rule> findPortsByViewIdAndSecurityGroupTo(Long viewId, String sg);
 
 }

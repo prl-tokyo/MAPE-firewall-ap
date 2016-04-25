@@ -1,5 +1,6 @@
 package jp.ac.nii.prl.mape.firewall.repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,4 +13,6 @@ public interface RuleRepository extends JpaRepository<Rule, Long> {
 	public Optional<Rule> findById(Long ruleId);
 	
 	public List<Rule> findByViewId(Long viewId);
+
+	public Collection<Rule> findByViewIdAndSecurityGroupTo(Long viewId, String sg);
 }
