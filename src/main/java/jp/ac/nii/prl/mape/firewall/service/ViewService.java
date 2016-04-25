@@ -16,4 +16,6 @@ public interface ViewService {
 
 	Collection<Constraint> analyse(View view);
 
+	View plan(View view, Collection<Constraint> violations);
+
 }

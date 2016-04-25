@@ -63,4 +63,9 @@ public class ViewServiceImpl implements ViewService {
 		}
 		return violations;
 	}
+	
+	@Override
+	public View plan(View view, Collection<Constraint> violations) {
+		return view;
+	}
 }
