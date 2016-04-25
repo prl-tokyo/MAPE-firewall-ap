@@ -2,6 +2,7 @@ package jp.ac.nii.prl.mape.firewall.model;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -28,6 +29,10 @@ public class Rule {
 
 	@NotEmpty
 	private String protocol;
+	
+	@JsonIgnore
+	@ManyToOne
+	private View view;
 
 	public Long getId() {
 		return id;
@@ -53,6 +58,10 @@ public class Rule {
 		return securityGroupTo;
 	}
 
+	public View getView() {
+		return view;
+	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -64,7 +73,7 @@ public class Rule {
 	public void setProtocol(String protocol) {
 		this.protocol = protocol;
 	}
-	
+
 	public void setRuleId(String ruleId) {
 		this.ruleId = ruleId;
 	}
@@ -75,5 +84,9 @@ public class Rule {
 	
 	public void setSecurityGroupTo(String securityGroupTo) {
 		this.securityGroupTo = securityGroupTo;
+	}
+	
+	public void setView(View view) {
+		this.view = view;
 	}
 }
