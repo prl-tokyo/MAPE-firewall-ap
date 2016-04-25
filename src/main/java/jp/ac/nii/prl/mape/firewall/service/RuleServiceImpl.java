@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import jp.ac.nii.prl.mape.firewall.model.Rule;
 import jp.ac.nii.prl.mape.firewall.repository.RuleRepository;
 
+@Service("ruleService")
 public class RuleServiceImpl implements RuleService {
 	
 	private final RuleRepository ruleRepository;

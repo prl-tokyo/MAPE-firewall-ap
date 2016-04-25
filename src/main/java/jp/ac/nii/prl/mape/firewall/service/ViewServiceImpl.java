@@ -3,10 +3,12 @@ package jp.ac.nii.prl.mape.firewall.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import jp.ac.nii.prl.mape.firewall.model.View;
 import jp.ac.nii.prl.mape.firewall.repository.ViewRepository;
 
+@Service("viewService")
 public class ViewServiceImpl implements ViewService {
 
 	private final ViewRepository viewRepository;
