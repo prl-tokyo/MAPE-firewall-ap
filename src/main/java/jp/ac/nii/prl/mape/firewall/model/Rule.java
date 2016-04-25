@@ -1,5 +1,6 @@
 package jp.ac.nii.prl.mape.firewall.model;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -8,6 +9,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@Entity
 public class Rule {
 	
 	@GeneratedValue

@@ -2,12 +2,14 @@ package jp.ac.nii.prl.mape.firewall.model;
 
 import java.util.List;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@Entity
 public class View {
 
 	@GeneratedValue
