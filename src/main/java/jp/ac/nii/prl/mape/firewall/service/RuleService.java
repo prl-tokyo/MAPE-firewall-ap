@@ -17,6 +17,6 @@ public interface RuleService {
 
 	Collection<Rule> findPortsByViewIdAndSecurityGroupTo(Long viewId, String sg);
 
-	boolean contradicts(Rule rule, Constraint constraint);
+	boolean satisfies(Rule rule, Constraint constraint);
 
 }

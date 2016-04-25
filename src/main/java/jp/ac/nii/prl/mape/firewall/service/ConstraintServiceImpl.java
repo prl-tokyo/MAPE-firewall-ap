@@ -1,5 +1,6 @@
 package jp.ac.nii.prl.mape.firewall.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -52,9 +53,10 @@ public class ConstraintServiceImpl implements ConstraintService {
 	@Override
 	public boolean validateConstraint(Constraint constraint, View view) {
 		for (Rule rule:view.getRules())
-			if (ruleService.contradicts(rule, constraint))
-				return false;
-		return true;
+			if (ruleService.satisfies(rule, constraint))
+				return true;
+		// no rule validates the constraint -> fail
+		return false;
 	}
 	
 	@Override
@@ -62,7 +64,7 @@ public class ConstraintServiceImpl implements ConstraintService {
 		Collection<Constraint> constraints = constraintRepository.findAll();
 		for (Constraint constraint:constraints) {
 			if (!validateConstraint(constraint, view))
-				return false;
+				return false; // one constraint not valid -> fail
 		}
 		return true;
 	}

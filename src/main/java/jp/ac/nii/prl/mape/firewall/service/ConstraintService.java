@@ -17,4 +17,5 @@ public interface ConstraintService {
 	boolean validateConstraint(Constraint constraint, View view);
 
 	boolean validateAllConstraints(View view);
+	
 }

@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jp.ac.nii.prl.mape.firewall.model.Constraint;
 import jp.ac.nii.prl.mape.firewall.model.Rule;
 import jp.ac.nii.prl.mape.firewall.model.View;
 import jp.ac.nii.prl.mape.firewall.repository.ViewRepository;
@@ -16,12 +17,16 @@ public class ViewServiceImpl implements ViewService {
 
 	private final ViewRepository viewRepository;
 	
+	private final ConstraintService constraintService;
 	private final RuleService ruleService;
 	
 	@Autowired
-	public ViewServiceImpl(ViewRepository viewRepository, RuleService ruleService) {
+	public ViewServiceImpl(ViewRepository viewRepository, 
+			RuleService ruleService,
+			ConstraintService constraintService) {
 		this.viewRepository = viewRepository;
 		this.ruleService = ruleService;
+		this.constraintService = constraintService;
 	}
 	
 	/* (non-Javadoc)
@@ -46,5 +51,16 @@ public class ViewServiceImpl implements ViewService {
 		for (Rule rule:rules)
 			ports.add(rule.getPort());
 		return ports;
+	}
+	
+	@Override
+	public Collection<Constraint> analyse(View view) {
+		Collection<Constraint> violations = new ArrayList<>();
+		Collection<Constraint> constraints = constraintService.findAll();
+		for (Constraint constraint:constraints) {
+			if (!constraintService.validateConstraint(constraint, view))
+				violations.add(constraint);
+		}
+		return violations;
 	}
 }

@@ -49,15 +49,15 @@ public class RuleServiceImpl implements RuleService {
 	public Collection<Rule> findPortsByViewIdAndSecurityGroupTo(Long viewId, String sg) {
 		return ruleRepository.findByViewIdAndSecurityGroupTo(viewId, sg);
 	}
-
+	
 	@Override
-	public boolean contradicts(Rule rule, Constraint constraint) {
-		if (constraint.getTo().equals(rule.getSecurityGroupTo())
-				&& constraint.getFrom().equals(rule.getSecurityGroupFrom())
+	public boolean satisfies(Rule rule, Constraint constraint) {
+		if (constraint.getFrom().equals(rule.getSecurityGroupFrom())
+				&& constraint.getTo().equals(rule.getSecurityGroupTo())
 				&& constraint.getPort().equals(rule.getPort())
-				&& constraint.getProtocol().equals(rule.getProtocol())) 
-						return !constraint.isPositive(); // if the rule is positive, no contradiction
-		// no contradiction since the constraint does not apply to this rule
+				&& constraint.getProtocol().equals(rule.getProtocol()))
+			return true;
+		// else
 		return false;
 	}
 }

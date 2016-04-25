@@ -23,8 +23,6 @@ public class Constraint {
 	private String from;
 	
 	private String to;
-	
-	private boolean positive;
 
 	public String getFrom() {
 		return from;
@@ -50,10 +48,6 @@ public class Constraint {
 		return to;
 	}
 
-	public boolean isPositive() {
-		return positive;
-	}
-
 	public void setFrom(String from) {
 		this.from = from;
 	}
@@ -68,10 +62,6 @@ public class Constraint {
 
 	public void setPort(String port) {
 		this.port = port;
-	}
-
-	public void setPositive(boolean positive) {
-		this.positive = positive;
 	}
 
 	public void setProtocol(String protocol) {
