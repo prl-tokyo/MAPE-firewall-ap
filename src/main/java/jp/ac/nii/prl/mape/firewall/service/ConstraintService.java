@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import jp.ac.nii.prl.mape.firewall.model.Constraint;
+import jp.ac.nii.prl.mape.firewall.model.View;
 
 public interface ConstraintService {
 
@@ -13,4 +14,5 @@ public interface ConstraintService {
 
 	Collection<Constraint> findAll();
 
+	public boolean validateConstraint(Constraint constraint, View view);
 }

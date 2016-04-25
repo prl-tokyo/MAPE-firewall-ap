@@ -49,6 +49,7 @@ public class ConstraintServiceImpl implements ConstraintService {
 		return constraintRepository.findAll();
 	}
 	
+	@Override
 	public boolean validateConstraint(Constraint constraint, View view) {
 		for (Rule rule:view.getRules())
 			if (ruleService.contradicts(rule, constraint))
