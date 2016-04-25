@@ -56,4 +56,14 @@ public class ConstraintServiceImpl implements ConstraintService {
 				return false;
 		return true;
 	}
+	
+	@Override
+	public boolean validateAllConstraints(View view) {
+		Collection<Constraint> constraints = constraintRepository.findAll();
+		for (Constraint constraint:constraints) {
+			if (!validateConstraint(constraint, view))
+				return false;
+		}
+		return true;
+	}
 }

@@ -14,5 +14,7 @@ public interface ConstraintService {
 
 	Collection<Constraint> findAll();
 
-	public boolean validateConstraint(Constraint constraint, View view);
+	boolean validateConstraint(Constraint constraint, View view);
+
+	boolean validateAllConstraints(View view);
 }
