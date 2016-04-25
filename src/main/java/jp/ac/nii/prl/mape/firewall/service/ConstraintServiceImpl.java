@@ -1,6 +1,5 @@
 package jp.ac.nii.prl.mape.firewall.service;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -12,7 +11,7 @@ import jp.ac.nii.prl.mape.firewall.model.Rule;
 import jp.ac.nii.prl.mape.firewall.model.View;
 import jp.ac.nii.prl.mape.firewall.repository.ConstraintRepository;
 
-@Service("constraintRepository")
+@Service("constraintService")
 public class ConstraintServiceImpl implements ConstraintService {
 
 	private final ConstraintRepository constraintRepository;
