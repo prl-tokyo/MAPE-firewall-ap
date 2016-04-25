@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import jp.ac.nii.prl.mape.firewall.model.Constraint;
 import jp.ac.nii.prl.mape.firewall.model.Rule;
+import jp.ac.nii.prl.mape.firewall.model.View;
 
 public interface RuleService {
 
@@ -18,5 +19,7 @@ public interface RuleService {
 	Collection<Rule> findPortsByViewIdAndSecurityGroupTo(Long viewId, String sg);
 
 	boolean satisfies(Rule rule, Constraint constraint);
+
+	Rule createRule(Constraint violation, View view);
 
 }

@@ -66,6 +66,9 @@ public class ViewServiceImpl implements ViewService {
 	
 	@Override
 	public View plan(View view, Collection<Constraint> violations) {
+		for (Constraint violation:violations) {
+			view.addRule(ruleService.createRule(violation, view));
+		}
 		return view;
 	}
 }
