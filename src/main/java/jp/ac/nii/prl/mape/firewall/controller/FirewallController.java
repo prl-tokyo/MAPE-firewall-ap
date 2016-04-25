@@ -1,5 +1,6 @@
 package jp.ac.nii.prl.mape.firewall.controller;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import jp.ac.nii.prl.mape.firewall.model.Constraint;
 import jp.ac.nii.prl.mape.firewall.model.Rule;
 import jp.ac.nii.prl.mape.firewall.model.View;
 import jp.ac.nii.prl.mape.firewall.service.RuleService;
@@ -39,6 +41,15 @@ public class FirewallController {
 		viewService.save(view);
 		for (Rule rule:view.getRules())
 			ruleService.save(rule);
+		
+		// analysis and plan
+		Collection<Constraint> violations = viewService.analyse(view);
+		if (!violations.isEmpty()) { // no need to plan if there are no violations
+			view = viewService.plan(view, violations);
+			viewService.save(view);
+			for (Rule rule:view.getRules())
+				ruleService.save(rule);
+		}
 		
 		// create response
 		HttpHeaders httpHeaders = new HttpHeaders();
