@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jp.ac.nii.prl.mape.firewall.model.Constraint;
 import jp.ac.nii.prl.mape.firewall.model.Rule;
 import jp.ac.nii.prl.mape.firewall.repository.RuleRepository;
 
@@ -47,5 +48,16 @@ public class RuleServiceImpl implements RuleService {
 	@Override
 	public Collection<Rule> findPortsByViewIdAndSecurityGroupTo(Long viewId, String sg) {
 		return ruleRepository.findByViewIdAndSecurityGroupTo(viewId, sg);
+	}
+
+	@Override
+	public boolean contradicts(Rule rule, Constraint constraint) {
+		if (constraint.getTo().equals(rule.getSecurityGroupTo())
+				&& constraint.getFrom().equals(rule.getSecurityGroupFrom())
+				&& constraint.getPort().equals(rule.getPort())
+				&& constraint.getProtocol().equals(rule.getProtocol())) 
+						return !constraint.isPositive(); // if the rule is positive, no contradiction
+		// no contradiction since the constraint does not apply to this rule
+		return false;
 	}
 }
