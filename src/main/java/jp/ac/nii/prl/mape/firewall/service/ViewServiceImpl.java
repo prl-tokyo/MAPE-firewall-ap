@@ -78,6 +78,7 @@ public class ViewServiceImpl implements ViewService {
 	private void removeRule(View view, FWConstraint fWConstraint) {
 		Collection<Rule> remove = findViolatingRules(view, fWConstraint);
 		view.removeRules(remove);
+		ruleService.delete(remove);
 	}
 	
 	private Collection<Rule> findViolatingRules(View view, FWConstraint fWConstraint) {

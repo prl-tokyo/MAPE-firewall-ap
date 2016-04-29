@@ -24,4 +24,8 @@ public interface RuleService {
 
 	boolean contradicts(Rule rule, FWConstraint fWConstraint);
 
+	void delete(Rule rule);
+
+	void delete(Collection<Rule> rules);
+
 }

@@ -81,6 +81,16 @@ public class RuleServiceImpl implements RuleService {
 		return rule;
 	}
 	
+	@Override
+	public void delete(Rule rule) {
+		ruleRepository.delete(rule);
+	}
+	
+	@Override
+	public void delete(Collection<Rule> rules) {
+		ruleRepository.delete(rules);
+	}
+	
 	private boolean covers(Rule rule, FWConstraint fWConstraint) {
 		if (fWConstraint.getSgFrom().equals(rule.getSecurityGroupRefFrom())
 				&& fWConstraint.getSgTo().equals(rule.getSecurityGroupRefTo())
