@@ -91,4 +91,10 @@ public class Rule {
 	public void setView(View view) {
 		this.view = view;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("Rule %s: %s. From: %s, To: %s. Port: %s, Protocol: %s. View: %s", 
+				id, ruleID, securityGroupRefFrom, securityGroupRefTo, port, protocol, view.getId());
+	}
 }
