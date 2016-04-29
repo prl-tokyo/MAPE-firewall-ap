@@ -51,18 +51,26 @@ public class FirewallController {
 	
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<?> createView(@RequestBody View view) {
+		System.out.println("View with " + view.getRules().size() + " rules");
 		// persist view and rules
 		viewService.save(view);
+		System.out.println("view saved");
 		for (Rule rule:view.getRules())
 			ruleService.save(rule);
-		
+		System.out.println("rules saved");
 		// analysis and plan
 		Collection<FWConstraint> violations = viewService.analyse(view);
+		System.out.println("analysis done");
 		if (!violations.isEmpty()) { // no need to plan if there are no violations
 			view = viewService.plan(view, violations);
+			System.out.println("planning done: " + view.getRules().size() + " rules left");
 			viewService.save(view);
-			for (Rule rule:view.getRules())
+			System.out.println("view saved");
+			for (Rule rule:view.getRules()) {
+				rule.setView(view);
 				ruleService.save(rule);
+				System.out.println("Saved rule " + rule.getRuleID());
+			}
 		}
 		
 		// create response
@@ -77,8 +85,12 @@ public class FirewallController {
 	public View getView(@PathVariable Long viewId) {
 		Optional<View> view = viewService.findById(viewId);
 		
-		if (view.isPresent())
-			return view.get();
+		if (view.isPresent()) {
+			View vw = view.get();
+			System.out.println(String.format("There are %s rules in the service, and %s in the view",
+					ruleService.findByViewId(viewId).size(), vw.getRules().size()));
+			return vw;
+		}
 		//else
 		throw new ViewNotFoundException(String.format("No view with id %s", viewId));
 	}

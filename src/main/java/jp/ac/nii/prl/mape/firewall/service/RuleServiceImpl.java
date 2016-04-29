@@ -76,6 +76,8 @@ public class RuleServiceImpl implements RuleService {
 		rule.setSecurityGroupRefTo(violation.getSgTo());
 		rule.setRuleID(UUID.randomUUID().toString());
 		rule.setView(view);
+		System.out.println(String.format("New rule: %s", rule.toString()));
+		save(rule);
 		return rule;
 	}
 	
