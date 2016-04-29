@@ -49,15 +49,21 @@ public class ConstraintServiceImpl implements ConstraintService {
 		return constraintRepository.findAll();
 	}
 	
+	/* (non-Javadoc)
+	 * @see jp.ac.nii.prl.mape.firewall.service.ConstraintService#validateConstraint(jp.ac.nii.prl.mape.firewall.model.Constraint, jp.ac.nii.prl.mape.firewall.model.View)
+	 */
 	@Override
 	public boolean validateConstraint(Constraint constraint, View view) {
 		for (Rule rule:view.getRules())
 			if (ruleService.satisfies(rule, constraint))
-				return true;
-		// no rule validates the constraint -> fail
-		return false;
+				return constraint.isPositive();
+		// no rule validates the constraint -> fail if the constraint is positive, success otherwise
+		return !constraint.isPositive();
 	}
 	
+	/* (non-Javadoc)
+	 * @see jp.ac.nii.prl.mape.firewall.service.ConstraintService#validateAllConstraints(jp.ac.nii.prl.mape.firewall.model.View)
+	 */
 	@Override
 	public boolean validateAllConstraints(View view) {
 		Collection<Constraint> constraints = constraintRepository.findAll();
