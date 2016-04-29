@@ -18,13 +18,13 @@ public class Rule {
 	private Long id;
 	
 	@NotEmpty
-	private String ruleId;
+	private String ruleID;
 	
 	@NotEmpty
-	private String securityGroupFrom;
+	private String securityGroupRefFrom;
 
 	@NotEmpty
-	private String securityGroupTo;
+	private String securityGroupRefTo;
 
 	@NotEmpty
 	private String port;
@@ -48,16 +48,16 @@ public class Rule {
 		return protocol;
 	}
 
-	public String getRuleId() {
-		return ruleId;
+	public String getRuleID() {
+		return ruleID;
 	}
 
-	public String getSecurityGroupFrom() {
-		return securityGroupFrom;
+	public String getSecurityGroupRefFrom() {
+		return securityGroupRefFrom;
 	}
 
-	public String getSecurityGroupTo() {
-		return securityGroupTo;
+	public String getSecurityGroupRefTo() {
+		return securityGroupRefTo;
 	}
 
 	public View getView() {
@@ -76,16 +76,16 @@ public class Rule {
 		this.protocol = protocol;
 	}
 
-	public void setRuleId(String ruleId) {
-		this.ruleId = ruleId;
+	public void setRuleID(String ruleID) {
+		this.ruleID = ruleID;
 	}
 	
-	public void setSecurityGroupFrom(String securityGroupFrom) {
-		this.securityGroupFrom = securityGroupFrom;
+	public void setSecurityGroupRefFrom(String securityGroupRefFrom) {
+		this.securityGroupRefFrom = securityGroupRefFrom;
 	}
 	
-	public void setSecurityGroupTo(String securityGroupTo) {
-		this.securityGroupTo = securityGroupTo;
+	public void setSecurityGroupRefTo(String securityGroupRefTo) {
+		this.securityGroupRefTo = securityGroupRefTo;
 	}
 	
 	public void setView(View view) {

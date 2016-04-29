@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jp.ac.nii.prl.mape.firewall.model.Constraint;
+import jp.ac.nii.prl.mape.firewall.model.FWConstraint;
 import jp.ac.nii.prl.mape.firewall.model.Rule;
 import jp.ac.nii.prl.mape.firewall.model.View;
 import jp.ac.nii.prl.mape.firewall.repository.ViewRepository;
@@ -17,16 +17,16 @@ public class ViewServiceImpl implements ViewService {
 
 	private final ViewRepository viewRepository;
 	
-	private final ConstraintService constraintService;
+	private final FWConstraintService fWConstraintService;
 	private final RuleService ruleService;
 	
 	@Autowired
 	public ViewServiceImpl(ViewRepository viewRepository, 
 			RuleService ruleService,
-			ConstraintService constraintService) {
+			FWConstraintService fWConstraintService) {
 		this.viewRepository = viewRepository;
 		this.ruleService = ruleService;
-		this.constraintService = constraintService;
+		this.fWConstraintService = fWConstraintService;
 	}
 	
 	/* (non-Javadoc)
@@ -54,19 +54,19 @@ public class ViewServiceImpl implements ViewService {
 	}
 	
 	@Override
-	public Collection<Constraint> analyse(View view) {
-		Collection<Constraint> violations = new ArrayList<>();
-		Collection<Constraint> constraints = constraintService.findAll();
-		for (Constraint constraint:constraints) {
-			if (!constraintService.validateConstraint(constraint, view))
-				violations.add(constraint);
+	public Collection<FWConstraint> analyse(View view) {
+		Collection<FWConstraint> violations = new ArrayList<>();
+		Collection<FWConstraint> fWConstraints = fWConstraintService.findAll();
+		for (FWConstraint fWConstraint:fWConstraints) {
+			if (!fWConstraintService.validateConstraint(fWConstraint, view))
+				violations.add(fWConstraint);
 		}
 		return violations;
 	}
 	
 	@Override
-	public View plan(View view, Collection<Constraint> violations) {
-		for (Constraint violation:violations) {
+	public View plan(View view, Collection<FWConstraint> violations) {
+		for (FWConstraint violation:violations) {
 			if (violation.isPositive())
 				view.addRule(ruleService.createRule(violation, view));
 			else
@@ -75,16 +75,16 @@ public class ViewServiceImpl implements ViewService {
 		return view;
 	}
 	
-	private void removeRule(View view, Constraint constraint) {
-		Collection<Rule> remove = findViolatingRules(view, constraint);
+	private void removeRule(View view, FWConstraint fWConstraint) {
+		Collection<Rule> remove = findViolatingRules(view, fWConstraint);
 		view.removeRules(remove);
 	}
 	
-	private Collection<Rule> findViolatingRules(View view, Constraint constraint) {
-		assert(!constraint.isPositive());
+	private Collection<Rule> findViolatingRules(View view, FWConstraint fWConstraint) {
+		assert(!fWConstraint.isPositive());
 		Collection<Rule> rules = new ArrayList<>();
 		for (Rule rule:view.getRules())
-			if (ruleService.contradicts(rule, constraint))
+			if (ruleService.contradicts(rule, fWConstraint))
 				rules.add(rule);
 		return rules;
 	}

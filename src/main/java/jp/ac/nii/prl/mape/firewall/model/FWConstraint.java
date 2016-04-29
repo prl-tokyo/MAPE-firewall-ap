@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Constraint {
+public class FWConstraint {
 
 	@GeneratedValue
 	@Id

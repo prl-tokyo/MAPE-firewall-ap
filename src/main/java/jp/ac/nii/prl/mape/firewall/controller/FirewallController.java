@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import jp.ac.nii.prl.mape.firewall.model.Constraint;
+import jp.ac.nii.prl.mape.firewall.model.FWConstraint;
 import jp.ac.nii.prl.mape.firewall.model.Rule;
 import jp.ac.nii.prl.mape.firewall.model.View;
+import jp.ac.nii.prl.mape.firewall.service.FWConstraintService;
 import jp.ac.nii.prl.mape.firewall.service.RuleService;
 import jp.ac.nii.prl.mape.firewall.service.ViewService;
 
@@ -28,11 +29,24 @@ public class FirewallController {
 
 	private final ViewService viewService;
 	private final RuleService ruleService;
+	private final FWConstraintService fWConstraintService;
 	
 	@Autowired
-	public FirewallController(ViewService viewService, RuleService ruleService) {
+	public FirewallController(ViewService viewService, 
+			RuleService ruleService, 
+			FWConstraintService fWConstraintService) {
 		this.viewService = viewService;
 		this.ruleService = ruleService;
+		this.fWConstraintService = fWConstraintService;
+		
+		FWConstraint const1 = new FWConstraint();
+		const1.setName("Constraint 1");
+		const1.setFrom("0.0.0.0/0");
+		const1.setTo("sg-");
+		const1.setPositive(true);
+		const1.setPort("80");
+		const1.setProtocol("tcp");
+		this.fWConstraintService.save(const1);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
@@ -43,7 +57,7 @@ public class FirewallController {
 			ruleService.save(rule);
 		
 		// analysis and plan
-		Collection<Constraint> violations = viewService.analyse(view);
+		Collection<FWConstraint> violations = viewService.analyse(view);
 		if (!violations.isEmpty()) { // no need to plan if there are no violations
 			view = viewService.plan(view, violations);
 			viewService.save(view);

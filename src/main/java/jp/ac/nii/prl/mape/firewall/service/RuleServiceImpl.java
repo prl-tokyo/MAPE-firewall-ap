@@ -4,11 +4,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jp.ac.nii.prl.mape.firewall.model.Constraint;
+import jp.ac.nii.prl.mape.firewall.model.FWConstraint;
 import jp.ac.nii.prl.mape.firewall.model.Rule;
 import jp.ac.nii.prl.mape.firewall.model.View;
 import jp.ac.nii.prl.mape.firewall.repository.RuleRepository;
@@ -49,38 +50,40 @@ public class RuleServiceImpl implements RuleService {
 
 	@Override
 	public Collection<Rule> findPortsByViewIdAndSecurityGroupTo(Long viewId, String sg) {
-		return ruleRepository.findByViewIdAndSecurityGroupTo(viewId, sg);
+		Collection<Rule> rules = ruleRepository.findByViewId(viewId);
+		rules = rules.stream().filter(p -> p.getSecurityGroupRefTo().equals(sg)).collect(Collectors.toList());
+		return rules;
 	}
 	
 	@Override
-	public boolean satisfies(Rule rule, Constraint constraint) {
-		assert(constraint.isPositive());
-		return covers(rule, constraint);
+	public boolean satisfies(Rule rule, FWConstraint fWConstraint) {
+		assert(fWConstraint.isPositive());
+		return covers(rule, fWConstraint);
 	}
 	
 	@Override
-	public boolean contradicts(Rule rule, Constraint constraint) {
-		assert(!constraint.isPositive());
-		return !covers(rule, constraint);
+	public boolean contradicts(Rule rule, FWConstraint fWConstraint) {
+		assert(!fWConstraint.isPositive());
+		return !covers(rule, fWConstraint);
 	}
 
 	@Override
-	public Rule createRule(Constraint violation, View view) {
+	public Rule createRule(FWConstraint violation, View view) {
 		Rule rule = new Rule();
 		rule.setPort(violation.getPort());
 		rule.setProtocol(violation.getProtocol());
-		rule.setSecurityGroupFrom(violation.getFrom());
-		rule.setSecurityGroupTo(violation.getTo());
-		rule.setRuleId(UUID.randomUUID().toString());
+		rule.setSecurityGroupRefFrom(violation.getFrom());
+		rule.setSecurityGroupRefTo(violation.getTo());
+		rule.setRuleID(UUID.randomUUID().toString());
 		rule.setView(view);
 		return rule;
 	}
 	
-	private boolean covers(Rule rule, Constraint constraint) {
-		if (constraint.getFrom().equals(rule.getSecurityGroupFrom())
-				&& constraint.getTo().equals(rule.getSecurityGroupTo())
-				&& constraint.getPort().equals(rule.getPort())
-				&& constraint.getProtocol().equals(rule.getProtocol()))
+	private boolean covers(Rule rule, FWConstraint fWConstraint) {
+		if (fWConstraint.getFrom().equals(rule.getSecurityGroupRefFrom())
+				&& fWConstraint.getTo().equals(rule.getSecurityGroupRefTo())
+				&& fWConstraint.getPort().equals(rule.getPort())
+				&& fWConstraint.getProtocol().equals(rule.getProtocol()))
 			return true;
 		// else
 		return false;

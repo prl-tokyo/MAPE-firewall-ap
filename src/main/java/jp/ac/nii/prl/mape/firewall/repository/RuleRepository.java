@@ -14,5 +14,4 @@ public interface RuleRepository extends JpaRepository<Rule, Long> {
 	
 	public List<Rule> findByViewId(Long viewId);
 
-	public Collection<Rule> findByViewIdAndSecurityGroupTo(Long viewId, String sg);
 }
