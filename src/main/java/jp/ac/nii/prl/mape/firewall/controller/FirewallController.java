@@ -41,9 +41,9 @@ public class FirewallController {
 		
 		FWConstraint const1 = new FWConstraint();
 		const1.setName("Constraint 1");
-		const1.setFrom("0.0.0.0/0");
-		const1.setTo("sg-");
-		const1.setPositive(true);
+		const1.setSgFrom("0.0.0.0/0");
+		const1.setSgTo("sg-");
+		const1.setPos(true);
 		const1.setPort("80");
 		const1.setProtocol("tcp");
 		this.fWConstraintService.save(const1);

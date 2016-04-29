@@ -57,13 +57,13 @@ public class RuleServiceImpl implements RuleService {
 	
 	@Override
 	public boolean satisfies(Rule rule, FWConstraint fWConstraint) {
-		assert(fWConstraint.isPositive());
+		assert(fWConstraint.isPos());
 		return covers(rule, fWConstraint);
 	}
 	
 	@Override
 	public boolean contradicts(Rule rule, FWConstraint fWConstraint) {
-		assert(!fWConstraint.isPositive());
+		assert(!fWConstraint.isPos());
 		return !covers(rule, fWConstraint);
 	}
 
@@ -72,16 +72,16 @@ public class RuleServiceImpl implements RuleService {
 		Rule rule = new Rule();
 		rule.setPort(violation.getPort());
 		rule.setProtocol(violation.getProtocol());
-		rule.setSecurityGroupRefFrom(violation.getFrom());
-		rule.setSecurityGroupRefTo(violation.getTo());
+		rule.setSecurityGroupRefFrom(violation.getSgFrom());
+		rule.setSecurityGroupRefTo(violation.getSgTo());
 		rule.setRuleID(UUID.randomUUID().toString());
 		rule.setView(view);
 		return rule;
 	}
 	
 	private boolean covers(Rule rule, FWConstraint fWConstraint) {
-		if (fWConstraint.getFrom().equals(rule.getSecurityGroupRefFrom())
-				&& fWConstraint.getTo().equals(rule.getSecurityGroupRefTo())
+		if (fWConstraint.getSgFrom().equals(rule.getSecurityGroupRefFrom())
+				&& fWConstraint.getSgTo().equals(rule.getSecurityGroupRefTo())
 				&& fWConstraint.getPort().equals(rule.getPort())
 				&& fWConstraint.getProtocol().equals(rule.getProtocol()))
 			return true;

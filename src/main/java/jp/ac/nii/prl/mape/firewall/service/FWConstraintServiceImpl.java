@@ -54,7 +54,7 @@ public class FWConstraintServiceImpl implements FWConstraintService {
 	 */
 	@Override
 	public boolean validateConstraint(FWConstraint fWConstraint, View view) {
-		if (fWConstraint.isPositive()) {
+		if (fWConstraint.isPos()) {
 			for (Rule rule:view.getRules())
 				if (ruleService.satisfies(rule, fWConstraint))
 					return true;

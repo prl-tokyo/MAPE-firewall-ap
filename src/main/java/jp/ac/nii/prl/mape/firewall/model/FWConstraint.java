@@ -20,15 +20,11 @@ public class FWConstraint {
 	
 	private String protocol;
 	
-	private String from;
+	private String sgFrom;
 	
-	private String to;
+	private String sgTo;
 	
-	private boolean positive;
-
-	public String getFrom() {
-		return from;
-	}
+	private boolean pos;
 
 	public Long getId() {
 		return id;
@@ -46,16 +42,16 @@ public class FWConstraint {
 		return protocol;
 	}
 
-	public String getTo() {
-		return to;
+	public String getSgFrom() {
+		return sgFrom;
 	}
 
-	public boolean isPositive() {
-		return positive;
+	public String getSgTo() {
+		return sgTo;
 	}
-
-	public void setFrom(String from) {
-		this.from = from;
+	
+	public boolean isPos() {
+		return pos;
 	}
 
 	public void setId(Long id) {
@@ -70,15 +66,19 @@ public class FWConstraint {
 		this.port = port;
 	}
 
-	public void setPositive(boolean positive) {
-		this.positive = positive;
+	public void setPos(boolean pos) {
+		this.pos = pos;
 	}
-
+	
 	public void setProtocol(String protocol) {
 		this.protocol = protocol;
 	}
 
-	public void setTo(String to) {
-		this.to = to;
+	public void setSgFrom(String from) {
+		this.sgFrom = from;
+	}
+
+	public void setSgTo(String to) {
+		this.sgTo = to;
 	}
 }

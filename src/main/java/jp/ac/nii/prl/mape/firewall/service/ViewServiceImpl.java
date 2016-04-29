@@ -67,7 +67,7 @@ public class ViewServiceImpl implements ViewService {
 	@Override
 	public View plan(View view, Collection<FWConstraint> violations) {
 		for (FWConstraint violation:violations) {
-			if (violation.isPositive())
+			if (violation.isPos())
 				view.addRule(ruleService.createRule(violation, view));
 			else
 				removeRule(view, violation);
@@ -81,7 +81,7 @@ public class ViewServiceImpl implements ViewService {
 	}
 	
 	private Collection<Rule> findViolatingRules(View view, FWConstraint fWConstraint) {
-		assert(!fWConstraint.isPositive());
+		assert(!fWConstraint.isPos());
 		Collection<Rule> rules = new ArrayList<>();
 		for (Rule rule:view.getRules())
 			if (ruleService.contradicts(rule, fWConstraint))
