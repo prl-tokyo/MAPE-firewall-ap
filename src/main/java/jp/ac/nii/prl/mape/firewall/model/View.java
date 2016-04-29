@@ -1,5 +1,6 @@
 package jp.ac.nii.prl.mape.firewall.model;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -42,5 +43,9 @@ public class View {
 	
 	public void removeRule(Rule rule) {
 		this.rules.remove(rule);
+	}
+
+	public void removeRules(Collection<Rule> rules) {
+		rules.removeAll(rules);
 	}
 }

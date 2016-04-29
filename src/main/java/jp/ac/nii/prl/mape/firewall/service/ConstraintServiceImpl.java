@@ -54,11 +54,19 @@ public class ConstraintServiceImpl implements ConstraintService {
 	 */
 	@Override
 	public boolean validateConstraint(Constraint constraint, View view) {
-		for (Rule rule:view.getRules())
-			if (ruleService.satisfies(rule, constraint))
-				return constraint.isPositive();
-		// no rule validates the constraint -> fail if the constraint is positive, success otherwise
-		return !constraint.isPositive();
+		if (constraint.isPositive()) {
+			for (Rule rule:view.getRules())
+				if (ruleService.satisfies(rule, constraint))
+					return true;
+			// no rule validates the constraint -> fail
+			return false;
+		} else {
+			for (Rule rule:view.getRules()) {
+				if (ruleService.contradicts(rule, constraint))
+					return false;
+			}
+			return true;
+		}
 	}
 	
 	/* (non-Javadoc)

@@ -67,8 +67,25 @@ public class ViewServiceImpl implements ViewService {
 	@Override
 	public View plan(View view, Collection<Constraint> violations) {
 		for (Constraint violation:violations) {
-			view.addRule(ruleService.createRule(violation, view));
+			if (violation.isPositive())
+				view.addRule(ruleService.createRule(violation, view));
+			else
+				removeRule(view, violation);
 		}
 		return view;
+	}
+	
+	private void removeRule(View view, Constraint constraint) {
+		Collection<Rule> remove = findViolatingRules(view, constraint);
+		view.removeRules(remove);
+	}
+	
+	private Collection<Rule> findViolatingRules(View view, Constraint constraint) {
+		assert(!constraint.isPositive());
+		Collection<Rule> rules = new ArrayList<>();
+		for (Rule rule:view.getRules())
+			if (ruleService.contradicts(rule, constraint))
+				rules.add(rule);
+		return rules;
 	}
 }

@@ -22,4 +22,6 @@ public interface RuleService {
 
 	Rule createRule(Constraint violation, View view);
 
+	boolean contradicts(Rule rule, Constraint constraint);
+
 }

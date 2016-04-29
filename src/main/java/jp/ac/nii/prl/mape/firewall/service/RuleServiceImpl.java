@@ -54,13 +54,14 @@ public class RuleServiceImpl implements RuleService {
 	
 	@Override
 	public boolean satisfies(Rule rule, Constraint constraint) {
-		if (constraint.getFrom().equals(rule.getSecurityGroupFrom())
-				&& constraint.getTo().equals(rule.getSecurityGroupTo())
-				&& constraint.getPort().equals(rule.getPort())
-				&& constraint.getProtocol().equals(rule.getProtocol()))
-			return true;
-		// else
-		return false;
+		assert(constraint.isPositive());
+		return covers(rule, constraint);
+	}
+	
+	@Override
+	public boolean contradicts(Rule rule, Constraint constraint) {
+		assert(!constraint.isPositive());
+		return !covers(rule, constraint);
 	}
 
 	@Override
@@ -73,5 +74,15 @@ public class RuleServiceImpl implements RuleService {
 		rule.setRuleId(UUID.randomUUID().toString());
 		rule.setView(view);
 		return rule;
+	}
+	
+	private boolean covers(Rule rule, Constraint constraint) {
+		if (constraint.getFrom().equals(rule.getSecurityGroupFrom())
+				&& constraint.getTo().equals(rule.getSecurityGroupTo())
+				&& constraint.getPort().equals(rule.getPort())
+				&& constraint.getProtocol().equals(rule.getProtocol()))
+			return true;
+		// else
+		return false;
 	}
 }
